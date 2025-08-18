@@ -1,0 +1,45 @@
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+public class Ex_Analisador {
+    static class Produto {
+        private int codigo;
+        public String nome;
+        protected double preco;
+
+        public Produto(int codigo, String nome, double preco) {
+            this.codigo = codigo;
+            this.nome = nome;
+            this.preco = preco;
+        }
+
+        private double calcularImposto() {
+            return preco * 0.1;
+        }
+    }
+
+    static class AnalisadorDeClasse {
+        public static void inspecionar(Object obj) {
+            Class<?> clazz = obj.getClass();
+
+            System.out.println("📌 Classe: " + clazz.getName());
+
+            System.out.println("\n--- Atributos ---");
+            Field[] fields = clazz.getDeclaredFields();
+            for (Field f : fields) {
+                System.out.println(f.getName() + " : " + f.getType().getSimpleName());
+            }
+
+            System.out.println("\n--- Métodos ---");
+            Method[] methods = clazz.getDeclaredMethods();
+            for (Method m : methods) {
+                System.out.println(m.getName());
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Produto p = new Produto(101, "Notebook Gamer", 8500.0);
+        AnalisadorDeClasse.inspecionar(p);
+    }
+}
